@@ -1,4 +1,5 @@
-# oopd-gu-chalmers Lab 1
-Lab assignment 1 in the course Object-oriented Programming and Design, GU/Chalmers
+# DIT044 Assignment 1
+
+Assignment 1 in the course DIT044 Object-oriented Programming
 
 See Canvas for instructions.

@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Volvo240{
+public class Volvo240 {
 
     public final static double trimFactor = 1.25;
     public int nrDoors; // Number of doors on the car
@@ -9,7 +9,7 @@ public class Volvo240{
     public Color color; // Color of the car
     public String modelName; // The car model name
     
-    public Volvo240(){
+    public Volvo240() {
         nrDoors = 4;
         color = Color.black;
         enginePower = 100;
@@ -17,52 +17,52 @@ public class Volvo240{
         stopEngine();
     }
     
-    public int getNrDoors(){
+    public int getNrDoors() {
         return nrDoors;
     }
-    public double getEnginePower(){
+    public double getEnginePower() {
         return enginePower;
     }
 
-    public double getCurrentSpeed(){
+    public double getCurrentSpeed() {
         return currentSpeed;
     }
 
-    public Color getColor(){
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(Color clr){
-	    color = clr;
+    public void setColor(Color clr) {
+        color = clr;
     }
 
-    public void startEngine(){
-	    currentSpeed = 0.1;
+    public void startEngine() {
+        currentSpeed = 0.1;
     }
 
-    public void stopEngine(){
-	    currentSpeed = 0;
+    public void stopEngine() {
+        currentSpeed = 0;
     }
     
-    public double speedFactor(){
+    public double speedFactor() {
         return enginePower * 0.01 * trimFactor;
     }
 
-    public void incrementSpeed(double amount){
-	    currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
+    public void incrementSpeed(double amount) {
+        currentSpeed = getCurrentSpeed() + speedFactor() * amount;
     }
 
-    public void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+    public void decrementSpeed(double amount) {
+        currentSpeed = getCurrentSpeed() - speedFactor() * amount;
     }
 
     // TODO fix this method according to lab pm
-    public void gas(double amount){
+    public void gas(double amount) {
         incrementSpeed(amount);
     }
 
     // TODO fix this method according to lab pm
-    public void brake(double amount){
+    public void brake(double amount) {
         decrementSpeed(amount);
     }
 }
