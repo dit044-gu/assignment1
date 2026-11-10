@@ -1,12 +1,14 @@
 import java.awt.*;
 
 
-    public abstract class Car{
+    public abstract class Car implements Movable{
         protected int nrDoors;
         protected double enginePower;
-        protected  Color color;
+        protected Color color;
         protected String modelName;
-        protected  double currentSpeed;
+        protected double currentSpeed;
+        protected double x;
+        protected double y;
         
     public Car(int nrDoors, Color color, double enginePower, String modelName){
         this.nrDoors = nrDoors;
@@ -14,9 +16,11 @@ import java.awt.*;
         this.color = color;
         this.modelName = modelName;
         this.currentSpeed = 0;
+        
 
         }
-       
+
+    }
         public void stopEngine(){
         currentSpeed = 0;    
         }
@@ -52,5 +56,20 @@ import java.awt.*;
     }
     public void brake(double amount) {
         decrementSpeed(amount);
+    }
+    
+    @Override 
+    public void move(){
+     currentSpeed;
+    }
+
+    @Override 
+    public void turnLeft(){
+
+    }
+
+    @Override 
+    public void turnRight(){
+
     }
     }
