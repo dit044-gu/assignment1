@@ -7,6 +7,7 @@ public abstract class Car{
     private Color color;
     private String modelName;
     private double currentSpeed;
+    public double stopEngine;
     public Car(int nrDoors, Color color, double enginePower, String modelName){
     this.nrDoors = nrDoors;
     this.enginePower = enginePower;
