@@ -7,33 +7,6 @@ public class Saab95 extends Car {
         super(2, Color.red, 125, "Saab95");
         turboOn = false;
     }
-    
-    public int getNrDoors() {
-        return nrDoors;
-    }
-    public double getEnginePower() {
-        return enginePower;
-    }
-
-    public double getCurrentSpeed() {
-        return currentSpeed;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color clr) {
-        color = clr;
-    }
-
-    public void startEngine() {
-        currentSpeed = 0.1;
-    }
-
-    public void stopEngine() {
-        currentSpeed = 0;
-    }
 
     public void setTurboOn() {
         turboOn = true;
@@ -43,6 +16,7 @@ public class Saab95 extends Car {
         turboOn = false;
     }
     
+    @Override 
     public double speedFactor() {
         double turbo = 1;
         if(turboOn) turbo = 1.3;
