@@ -13,13 +13,10 @@ import java.awt.*;
         this.enginePower = enginePower;
         this.color = color;
         this.modelName = modelName;
+        this.currentSpeed = 0;
 
         }
-        public void startEngine() {
-        currentSpeed = 0.1;
-        }
-        protected double Car.speedFactor() {
-        }
+       
         public void stopEngine(){
         currentSpeed = 0;    
         }
@@ -33,6 +30,22 @@ import java.awt.*;
             return color;
         }
         public void setColor(Color clr) {
-            color = clr;   } 
+            color = clr;   
+        } 
+        public double getCurrentSpeed(){
+            return currentSpeed;
+        }
+        public void startEngine() {
+            currentSpeed = 0.1;
+        }
+        protected abstract double speedFactor();
+        
+    public void incrementSpeed(double amount) {
+        currentSpeed = getCurrentSpeed() + speedFactor() * amount;
+    }
+
+    public void decrementSpeed(double amount) {
+        currentSpeed = getCurrentSpeed() - speedFactor() * amount;
+    }
 
     }
