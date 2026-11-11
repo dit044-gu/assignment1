@@ -98,7 +98,7 @@ import java.awt.*;
 
         }
     }
-
+    
     @Override 
     public void turnRight(){
         switch (direction){
