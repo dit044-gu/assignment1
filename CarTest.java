@@ -131,6 +131,22 @@ public class CarTest {
         reportResult("Brake rejects below zero", brakeRejectBelowZero);
     }
 
+    /** Volvo 0<= currentSpeed <= enginePower = 100
+     * speedFactor =1.25 */
+static void testSpeedLimitVolvo () {
+    Volvo240 volvo = new Volvo240();
+
+    volvo.currentSpeed = 100;
+    volvo.gas(1);
+    boolean maxResult = volvo.getCurrentSpeed() <= volvo.enginePower;
+    reportResult("Current speed does not exceed engine power", maxResult);
+
+    volvo.currentSpeed = 0;
+    volvo.brake(1);
+    boolean minResult = volvo.getCurrentSpeed() >= 0;
+    reportResult("Current speed does not go below 0", minResult);
+}
+
 
     static void main() {
         testTurbo();
@@ -143,6 +159,7 @@ public class CarTest {
 
         testInvalidGas();
         testInvalidBrake();
+        testSpeedLimitVolvo();
 
     }
 }
