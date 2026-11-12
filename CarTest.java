@@ -190,7 +190,6 @@ public class CarTest {
         assertTrue(volvo.getCurrentSpeed() <= oldSpeed);
     }
 
-
     static void main() {
         testTurbo();
         testStartEngine();
