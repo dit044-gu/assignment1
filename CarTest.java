@@ -1,3 +1,7 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+
 public class CarTest {
     private static void reportResult(String testName, boolean success) {
         IO.println((success ? "SUCCESS: " : "FAILURE: ") + testName);
@@ -72,7 +76,8 @@ public class CarTest {
         reportResult("stopEngine sets speed to 0", result);
     }
 
-    /** gas(1.5) or gas(-1) should be rejected */
+    /** gas(1.5) or gas(-1) should be rejected
+     * inheritance by both, choose anyone to test*/
     private static void testInvalidGas() {
         Volvo240 volvo = new Volvo240();
         Saab95 saab = new Saab95();
@@ -109,7 +114,8 @@ public class CarTest {
         reportResult("Saab rejects gas below 0", saabRejectBelowZero);
     }
 
-    /** brake(2) or brake(-1.5) should be rejected */
+    /** brake(2) or brake(-1.5) should be rejected
+     * inheritance by both, choose anyone to test */
     private static void testInvalidBrake() {
         Volvo240 volvo = new Volvo240();
 
@@ -131,20 +137,56 @@ public class CarTest {
         reportResult("Brake rejects below zero", brakeRejectBelowZero);
     }
 
-    /** Volvo 0<= currentSpeed <= enginePower = 100
-     * speedFactor =1.25 */
+    /** Volvo 0<= currentSpeed <= enginePower = 100 */
 static void testSpeedLimitVolvo () {
     Volvo240 volvo = new Volvo240();
 
     volvo.currentSpeed = 100;
     volvo.gas(1);
     boolean maxResult = volvo.getCurrentSpeed() <= volvo.enginePower;
-    reportResult("Current speed does not exceed engine power", maxResult);
+    reportResult("Volvo current speed does not exceed engine power", maxResult);
 
     volvo.currentSpeed = 0;
     volvo.brake(1);
     boolean minResult = volvo.getCurrentSpeed() >= 0;
-    reportResult("Current speed does not go below 0", minResult);
+    reportResult("Volvo current speed does not go below 0", minResult);
+}
+
+    /** Saab 0<= currentSpeed <= enginePower = 125 */
+static void testSpeedLimitSaab () {
+    Saab95 saab = new Saab95();
+
+    saab.currentSpeed = 125;
+    saab.gas(1);
+    boolean maxResult = saab.getCurrentSpeed() <= saab.enginePower;
+    reportResult("Saab current speed does not exceed engine power", maxResult);
+
+    saab.currentSpeed = 0;
+    saab.brake(1);
+    boolean minResult = saab.getCurrentSpeed() >= 0;
+    reportResult("Saab current speed does not go below 0", minResult);
+}
+
+/** gas cannot decrease speed
+ *  inheritance by both, choose anyone to test */
+static void testGasNotDecreaseSpeed() {
+    Saab95 saab = new Saab95();
+    double oldSpeed = saab.getCurrentSpeed();
+    saab.gas(-1);
+    double newSpeed = saab.getCurrentSpeed();
+    boolean gasNotDecreaseSpeed = newSpeed >= oldSpeed;
+    reportResult("Gas not decrease speed", gasNotDecreaseSpeed);
+}
+
+/** Junit
+ * brake cannot increase speed
+ * inheritance by both, choose anyone to test */
+@Test
+static void testBrakeNotIncreaseSpeed() {
+    Volvo240 volvo = new Volvo240();
+    double oldSpeed = volvo.getCurrentSpeed();
+    volvo.brake(-1);
+    assertTrue(volvo.getCurrentSpeed() >= oldSpeed);
 }
 
 
@@ -160,6 +202,9 @@ static void testSpeedLimitVolvo () {
         testInvalidGas();
         testInvalidBrake();
         testSpeedLimitVolvo();
+        testSpeedLimitSaab ();
+        testGasNotDecreaseSpeed();
+        testBrakeNotIncreaseSpeed();
 
     }
 }
