@@ -72,6 +72,66 @@ public class CarTest {
         reportResult("stopEngine sets speed to 0", result);
     }
 
+    /** gas(1.5) or gas(-1) should be rejected */
+    private static void testInvalidGas() {
+        Volvo240 volvo = new Volvo240();
+        Saab95 saab = new Saab95();
+
+        boolean volvoRejectAboveOne = false;
+        boolean volvoRejectBelowZero = false;
+        boolean saabRejectAboveOne = false;
+        boolean saabRejectBelowZero = false;
+
+        try {
+            volvo.gas(1.5);
+        } catch (IllegalArgumentException e) {
+            volvoRejectAboveOne = true;
+        }
+        try {
+            volvo.gas(-1);
+        } catch (IllegalArgumentException e) {
+            volvoRejectBelowZero = true;
+        }
+        try {
+            saab.gas(1.5);
+        } catch (IllegalArgumentException e) {
+            saabRejectAboveOne = true;
+        }
+        try {
+            saab.gas(-1);
+        } catch (IllegalArgumentException e) {
+            saabRejectBelowZero = true;
+        }
+
+        reportResult("Volvo rejects gas above 1", volvoRejectAboveOne);
+        reportResult("Volvo rejects gas below 0",  volvoRejectBelowZero);
+        reportResult("Saab rejects gas above 1", saabRejectAboveOne);
+        reportResult("Saab rejects gas below 0", saabRejectBelowZero);
+    }
+
+    /** brake(2) or brake(-1.5) should be rejected */
+    private static void testInvalidBrake() {
+        Volvo240 volvo = new Volvo240();
+
+        boolean brakeRejectAboveOne = false;
+        boolean brakeRejectBelowZero = false;
+
+        try {
+            volvo.gas(2);
+        } catch (IllegalArgumentException e) {
+            brakeRejectAboveOne = true;
+        }
+        try {
+            volvo.gas(-1.5);
+        } catch (IllegalArgumentException e) {
+            brakeRejectBelowZero = true;
+        }
+
+        reportResult("Brake rejects above one", brakeRejectAboveOne);
+        reportResult("Brake rejects below zero", brakeRejectBelowZero);
+    }
+
+
     static void main() {
         testTurbo();
         testStartEngine();
@@ -80,6 +140,9 @@ public class CarTest {
         testMoveThenTurnLeft();
         testGasTwoThenBrakeOne();
         testStopEngine();
+
+        testInvalidGas();
+        testInvalidBrake();
 
     }
 }
