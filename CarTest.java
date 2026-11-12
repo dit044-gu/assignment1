@@ -123,12 +123,12 @@ public class CarTest {
         boolean brakeRejectBelowZero = false;
 
         try {
-            volvo.gas(2);
+            volvo.brake(2);
         } catch (IllegalArgumentException e) {
             brakeRejectAboveOne = true;
         }
         try {
-            volvo.gas(-1.5);
+            volvo.brake(-1.5);
         } catch (IllegalArgumentException e) {
             brakeRejectBelowZero = true;
         }
@@ -143,7 +143,7 @@ public class CarTest {
 
         volvo.currentSpeed = 100;
         volvo.gas(1);
-        boolean maxResult = volvo.getCurrentSpeed() <= volvo.enginePower;
+        boolean maxResult = volvo.getCurrentSpeed() <= volvo.getEnginePower();
         reportResult("Volvo current speed does not exceed engine power", maxResult);
 
         volvo.currentSpeed = 0;
@@ -158,7 +158,7 @@ public class CarTest {
 
         saab.currentSpeed = 125;
         saab.gas(1);
-        boolean maxResult = saab.getCurrentSpeed() <= saab.enginePower;
+        boolean maxResult = saab.getCurrentSpeed() <= saab.getEnginePower();
         reportResult("Saab current speed does not exceed engine power", maxResult);
 
         saab.currentSpeed = 0;
@@ -172,7 +172,7 @@ public class CarTest {
     static void testGasNotDecreaseSpeed() {
         Saab95 saab = new Saab95();
         double oldSpeed = saab.getCurrentSpeed();
-        saab.gas(-1);
+        saab.gas(0.5);
         double newSpeed = saab.getCurrentSpeed();
         boolean gasNotDecreaseSpeed = newSpeed >= oldSpeed;
         reportResult("Gas not decrease speed", gasNotDecreaseSpeed);
@@ -182,11 +182,12 @@ public class CarTest {
      * brake cannot increase speed
      * inheritance by both, choose anyone to test */
     @Test
-    static void testBrakeNotIncreaseSpeed() {
+    void testBrakeNotIncreaseSpeed() {
         Volvo240 volvo = new Volvo240();
+        volvo.gas(1);
         double oldSpeed = volvo.getCurrentSpeed();
-        volvo.brake(-1);
-        assertTrue(volvo.getCurrentSpeed() >= oldSpeed);
+        volvo.brake(0.2);
+        assertTrue(volvo.getCurrentSpeed() <= oldSpeed);
     }
 
 
@@ -204,7 +205,5 @@ public class CarTest {
         testSpeedLimitVolvo();
         testSpeedLimitSaab ();
         testGasNotDecreaseSpeed();
-        testBrakeNotIncreaseSpeed();
-
     }
 }

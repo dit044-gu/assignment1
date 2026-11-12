@@ -66,5 +66,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="junit.jupiter1" level="project" />
   </component>
 </module>
