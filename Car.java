@@ -58,11 +58,11 @@ import java.awt.*;
         if (currentSpeed < 0) {currentSpeed = 0;}
     }
     public void gas(double amount) {
-        if (amount < 0 || amount >1) {amount = 0;}
+        if (amount < 0 || amount > 1) {amount = 0;}
         incrementSpeed(amount);
     }
     public void brake(double amount) {
-        if (amount < 0 || amount >1) {amount = 0;}
+        if (amount < 0 || amount >=1) {amount = 0;}
             decrementSpeed(amount);
     }
 

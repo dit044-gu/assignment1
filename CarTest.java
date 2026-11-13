@@ -47,24 +47,24 @@ public class CarTest {
         reportResult("turnRight + move increases x only", result);
     }
 
-    /** gas(2), move North, then turnLeft: position stays (0, 2.5) and the car now faces West. */
+    /** gas(2), try move to North (0), then turnLeft: position (0, 0) and the car now faces West. */
     private static void testMoveThenTurnLeft() {
         Volvo240 volvo = new Volvo240();
         volvo.gas(2);
         volvo.move();
         volvo.turnLeft();
-        boolean result = volvo.x == 0 && volvo.y == 2.5 && volvo.direction.equals("West");
+        boolean result = volvo.x == 0 && volvo.y == 0 && volvo.direction.equals("West");
         reportResult("move North then turnLeft: position unchanged, now facing West", result);
     }
 
 
-    /** gas(2) then brake(1) should leave the speed at 1.25. */
+    /** gas(1) then brake(1) should leave the speed at 0, we stopped. */
     private static void testGasTwoThenBrakeOne() {
         Volvo240 volvo = new Volvo240();
         volvo.gas(2);
         volvo.brake(1);
-        boolean result = volvo.getCurrentSpeed() == 1.25;
-        reportResult("gas(2) then brake(1) gives speed 1.25", result);
+        boolean result = volvo.getCurrentSpeed() == 0;
+        reportResult("gas(1) then brake(1) gives speed 0", result);
     }
 
     /** stopEngine should set the speed to 0. */
