@@ -1,12 +1,11 @@
 import java.awt.*;
 
-
     public abstract class Car implements Movable{
-        protected int nrDoors;
-        protected double enginePower;
-        protected Color color;
-        protected String modelName;
-        protected double currentSpeed;
+        private final int nrDoors;
+        private final double enginePower;
+        private Color color;
+        private final String modelName;
+        private double currentSpeed;
         protected double x;
         protected double y;
         protected String direction = "North";
@@ -21,48 +20,53 @@ import java.awt.*;
         this.currentSpeed = 0;
         this.x = 0;
         this.y = 0;
-        
-
         }
 
-        public void stopEngine(){
-        currentSpeed = 0;    
+    public int getNrDoors() {
+        return nrDoors;
+    }
+    public double getEnginePower() {
+        return enginePower;
+    }
+    public Color getColor() {
+        return color;
+    }
+    public void setColor(Color clr) {
+        color = clr;
+    }
+    public String getModelName() { return modelName; }
+    public double getCurrentSpeed(){
+     return currentSpeed;
+    }
+    public void setCurrentSpeed(double speed){
+        if (speed>=0) {currentSpeed= speed;}
+    }
+    public void startEngine() {
+        currentSpeed = 0.1;
+    }
+    public void stopEngine(){
+            currentSpeed = 0;
         }
-        public int getNrDoors() {
-            return nrDoors;
-        }
-        public double getEnginePower() {
-            return enginePower;
-        }
-        public Color getColor() {
-            return color;
-        }
-        public void setColor(Color clr) {
-            color = clr;   
-        } 
-        public double getCurrentSpeed(){
-            return currentSpeed;
-        }
-        public void startEngine() {
-            currentSpeed = 0.1;
-        }
-        protected abstract double speedFactor();
-        
+
+    protected abstract double speedFactor();
     public void incrementSpeed(double amount) {
         currentSpeed = getCurrentSpeed() + speedFactor() * amount;
+        if (currentSpeed > enginePower) {currentSpeed = enginePower;}
     }
-
     public void decrementSpeed(double amount) {
         currentSpeed = getCurrentSpeed() - speedFactor() * amount;
+        if (currentSpeed < 0) {currentSpeed = 0;}
     }
-        public void gas(double amount) {
+    public void gas(double amount) {
+        if (amount < 0 || amount >1) {amount = 0;}
         incrementSpeed(amount);
     }
     public void brake(double amount) {
-        decrementSpeed(amount);
+        if (amount < 0 || amount >1) {amount = 0;}
+            decrementSpeed(amount);
     }
 
-    @Override 
+    @Override
     public void move(){
         switch (direction){
                 case "North":
@@ -95,7 +99,6 @@ import java.awt.*;
             case "East":
             direction = "North";
             break;
-
         }
     }
     
@@ -114,7 +117,6 @@ import java.awt.*;
             case "West":
             direction = "North";
             break;
-
         }
     }
     }

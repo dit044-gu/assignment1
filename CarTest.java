@@ -80,6 +80,18 @@ public class CarTest {
      * inheritance by both, choose anyone to test*/
     private static void testInvalidGas() {
         Volvo240 volvo = new Volvo240();
+        volvo.gas(1);
+        double oldSpeed = volvo.getCurrentSpeed();
+        volvo.gas(2);
+        boolean gasRejectAboveOne = volvo.getCurrentSpeed() == oldSpeed;
+        volvo.gas(-1);
+        boolean gasRejectBelowZero = volvo.getCurrentSpeed() == oldSpeed;
+        reportResult("Gas rejects above 1", gasRejectAboveOne);
+        reportResult("Gas rejects below 0", gasRejectBelowZero);
+    }
+
+    /** private static void testInvalidGas() {
+        Volvo240 volvo = new Volvo240();
         Saab95 saab = new Saab95();
 
         boolean volvoRejectAboveOne = false;
@@ -113,9 +125,23 @@ public class CarTest {
         reportResult("Saab rejects gas above 1", saabRejectAboveOne);
         reportResult("Saab rejects gas below 0", saabRejectBelowZero);
     }
+     */
 
     /** brake(2) or brake(-1.5) should be rejected
      * inheritance by both, choose anyone to test */
+    private static void testInvalidBrake() {
+        Volvo240 volvo = new Volvo240();
+        volvo.brake(1);
+        double oldSpeed = volvo.getCurrentSpeed();
+        volvo.brake(2);
+        boolean brakeRejectAboveOne = volvo.getCurrentSpeed() == oldSpeed;
+        volvo.brake(-1);
+        boolean brakeRejectBelowZero = volvo.getCurrentSpeed() == oldSpeed;
+        reportResult("Brake rejects above 1", brakeRejectAboveOne);
+        reportResult("Brake rejects below 0", brakeRejectBelowZero);
+    }
+
+    /**
     private static void testInvalidBrake() {
         Volvo240 volvo = new Volvo240();
 
@@ -135,18 +161,18 @@ public class CarTest {
 
         reportResult("Brake rejects above one", brakeRejectAboveOne);
         reportResult("Brake rejects below zero", brakeRejectBelowZero);
-    }
+    } */
 
     /** Volvo 0<= currentSpeed <= enginePower = 100 */
     static void testSpeedLimitVolvo () {
         Volvo240 volvo = new Volvo240();
 
-        volvo.currentSpeed = 100;
+        volvo.setCurrentSpeed(100);
         volvo.gas(1);
         boolean maxResult = volvo.getCurrentSpeed() <= volvo.getEnginePower();
         reportResult("Volvo current speed does not exceed engine power", maxResult);
 
-        volvo.currentSpeed = 0;
+        volvo.setCurrentSpeed(0);
         volvo.brake(1);
         boolean minResult = volvo.getCurrentSpeed() >= 0;
         reportResult("Volvo current speed does not go below 0", minResult);
@@ -156,12 +182,12 @@ public class CarTest {
     static void testSpeedLimitSaab () {
         Saab95 saab = new Saab95();
 
-        saab.currentSpeed = 125;
+        saab.setCurrentSpeed(125);
         saab.gas(1);
         boolean maxResult = saab.getCurrentSpeed() <= saab.getEnginePower();
         reportResult("Saab current speed does not exceed engine power", maxResult);
 
-        saab.currentSpeed = 0;
+        saab.setCurrentSpeed(0);
         saab.brake(1);
         boolean minResult = saab.getCurrentSpeed() >= 0;
         reportResult("Saab current speed does not go below 0", minResult);
