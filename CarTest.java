@@ -76,132 +76,51 @@ public class CarTest {
         reportResult("stopEngine sets speed to 0", result);
     }
 
-    /** gas(1.5) or gas(-1) should be rejected
-     * inheritance by both, choose anyone to test*/
-    private static void testInvalidGas() {
-        Volvo240 volvo = new Volvo240();
-        volvo.gas(1);
-        double oldSpeed = volvo.getCurrentSpeed();
-        volvo.gas(2);
-        boolean gasRejectAboveOne = volvo.getCurrentSpeed() == oldSpeed;
-        volvo.gas(-1);
-        boolean gasRejectBelowZero = volvo.getCurrentSpeed() == oldSpeed;
-        reportResult("Gas rejects above 1", gasRejectAboveOne);
-        reportResult("Gas rejects below 0", gasRejectBelowZero);
+    /** gas(1.5) or gas(-1) should be rejected, become gas(0)*/
+    private static void testInvalidGas(Car car) {
+        car.gas(1);
+        double oldSpeed = car.getCurrentSpeed();
+        car.gas(2);
+        boolean gasRejectAboveOne = car.getCurrentSpeed() == oldSpeed;
+        car.gas(-1);
+        boolean gasRejectBelowZero = car.getCurrentSpeed() == oldSpeed;
+        reportResult(car.getModelName() + " rejects gas above 1", gasRejectAboveOne);
+        reportResult(car.getModelName() + " rejects gas below 0", gasRejectBelowZero);
     }
 
-    /** private static void testInvalidGas() {
-        Volvo240 volvo = new Volvo240();
-        Saab95 saab = new Saab95();
-
-        boolean volvoRejectAboveOne = false;
-        boolean volvoRejectBelowZero = false;
-        boolean saabRejectAboveOne = false;
-        boolean saabRejectBelowZero = false;
-
-        try {
-            volvo.gas(1.5);
-        } catch (IllegalArgumentException e) {
-            volvoRejectAboveOne = true;
-        }
-        try {
-            volvo.gas(-1);
-        } catch (IllegalArgumentException e) {
-            volvoRejectBelowZero = true;
-        }
-        try {
-            saab.gas(1.5);
-        } catch (IllegalArgumentException e) {
-            saabRejectAboveOne = true;
-        }
-        try {
-            saab.gas(-1);
-        } catch (IllegalArgumentException e) {
-            saabRejectBelowZero = true;
-        }
-
-        reportResult("Volvo rejects gas above 1", volvoRejectAboveOne);
-        reportResult("Volvo rejects gas below 0",  volvoRejectBelowZero);
-        reportResult("Saab rejects gas above 1", saabRejectAboveOne);
-        reportResult("Saab rejects gas below 0", saabRejectBelowZero);
-    }
-     */
-
-    /** brake(2) or brake(-1.5) should be rejected
-     * inheritance by both, choose anyone to test */
-    private static void testInvalidBrake() {
-        Volvo240 volvo = new Volvo240();
-        volvo.brake(1);
-        double oldSpeed = volvo.getCurrentSpeed();
-        volvo.brake(2);
-        boolean brakeRejectAboveOne = volvo.getCurrentSpeed() == oldSpeed;
-        volvo.brake(-1);
-        boolean brakeRejectBelowZero = volvo.getCurrentSpeed() == oldSpeed;
-        reportResult("Brake rejects above 1", brakeRejectAboveOne);
-        reportResult("Brake rejects below 0", brakeRejectBelowZero);
+    /** brake(2) or brake(-1.5) should be rejected , become gas(0)*/
+    private static void testInvalidBrake(Car car) {
+        car.brake(1);
+        double oldSpeed = car.getCurrentSpeed();
+        car.brake(2);
+        boolean brakeRejectAboveOne = car.getCurrentSpeed() == oldSpeed;
+        car.brake(-1);
+        boolean brakeRejectBelowZero = car.getCurrentSpeed() == oldSpeed;
+        reportResult(car.getModelName() + " rejects brake above 1", brakeRejectAboveOne);
+        reportResult(car.getModelName() + " rejects brake below 0", brakeRejectBelowZero);
     }
 
-    /**
-    private static void testInvalidBrake() {
-        Volvo240 volvo = new Volvo240();
+    /** 0<= currentSpeed <= enginePower */
+    static void testSpeedLimit (Car car) {
+        double enginePower = car.getEnginePower();
+        car.setCurrentSpeed(enginePower);
+        car.gas(1);
+        boolean maxResult = car.getCurrentSpeed() <= car.getEnginePower();
+        reportResult(car.getModelName() + " current speed does not exceed engine power", maxResult);
 
-        boolean brakeRejectAboveOne = false;
-        boolean brakeRejectBelowZero = false;
-
-        try {
-            volvo.brake(2);
-        } catch (IllegalArgumentException e) {
-            brakeRejectAboveOne = true;
-        }
-        try {
-            volvo.brake(-1.5);
-        } catch (IllegalArgumentException e) {
-            brakeRejectBelowZero = true;
-        }
-
-        reportResult("Brake rejects above one", brakeRejectAboveOne);
-        reportResult("Brake rejects below zero", brakeRejectBelowZero);
-    } */
-
-    /** Volvo 0<= currentSpeed <= enginePower = 100 */
-    static void testSpeedLimitVolvo () {
-        Volvo240 volvo = new Volvo240();
-
-        volvo.setCurrentSpeed(100);
-        volvo.gas(1);
-        boolean maxResult = volvo.getCurrentSpeed() <= volvo.getEnginePower();
-        reportResult("Volvo current speed does not exceed engine power", maxResult);
-
-        volvo.setCurrentSpeed(0);
-        volvo.brake(1);
-        boolean minResult = volvo.getCurrentSpeed() >= 0;
-        reportResult("Volvo current speed does not go below 0", minResult);
+        car.setCurrentSpeed(0);
+        car.brake(1);
+        boolean minResult = car.getCurrentSpeed() >= 0;
+        reportResult(car.getModelName() + " current speed does not go below 0", minResult);
     }
 
-    /** Saab 0<= currentSpeed <= enginePower = 125 */
-    static void testSpeedLimitSaab () {
-        Saab95 saab = new Saab95();
-
-        saab.setCurrentSpeed(125);
-        saab.gas(1);
-        boolean maxResult = saab.getCurrentSpeed() <= saab.getEnginePower();
-        reportResult("Saab current speed does not exceed engine power", maxResult);
-
-        saab.setCurrentSpeed(0);
-        saab.brake(1);
-        boolean minResult = saab.getCurrentSpeed() >= 0;
-        reportResult("Saab current speed does not go below 0", minResult);
-    }
-
-    /** gas cannot decrease speed
-     *  inheritance by both, choose anyone to test */
-    static void testGasNotDecreaseSpeed() {
-        Saab95 saab = new Saab95();
-        double oldSpeed = saab.getCurrentSpeed();
-        saab.gas(0.5);
-        double newSpeed = saab.getCurrentSpeed();
+    /** gas cannot decrease speed */
+    static void testGasNotDecreaseSpeed(Car car) {
+        double oldSpeed = car.getCurrentSpeed();
+        car.gas(0.5);
+        double newSpeed = car.getCurrentSpeed();
         boolean gasNotDecreaseSpeed = newSpeed >= oldSpeed;
-        reportResult("Gas not decrease speed", gasNotDecreaseSpeed);
+        reportResult(car.getModelName() + " gas not decrease speed", gasNotDecreaseSpeed);
     }
 
     /** Junit
@@ -225,10 +144,71 @@ public class CarTest {
         testGasTwoThenBrakeOne();
         testStopEngine();
 
-        testInvalidGas();
-        testInvalidBrake();
-        testSpeedLimitVolvo();
-        testSpeedLimitSaab ();
-        testGasNotDecreaseSpeed();
+        testInvalidGas(new Volvo240());
+        testInvalidBrake(new Saab95());
+        testSpeedLimit (new Volvo240());
+        testSpeedLimit (new Saab95());
+        testGasNotDecreaseSpeed(new Volvo240());
     }
 }
+
+
+
+/** private static void testInvalidGas() {
+    Volvo240 volvo = new Volvo240();
+    Saab95 saab = new Saab95();
+
+    boolean volvoRejectAboveOne = false;
+    boolean volvoRejectBelowZero = false;
+    boolean saabRejectAboveOne = false;
+    boolean saabRejectBelowZero = false;
+
+    try {
+        volvo.gas(1.5);
+    } catch (IllegalArgumentException e) {
+        volvoRejectAboveOne = true;
+    }
+    try {
+        volvo.gas(-1);
+    } catch (IllegalArgumentException e) {
+        volvoRejectBelowZero = true;
+    }
+    try {
+        saab.gas(1.5);
+    } catch (IllegalArgumentException e) {
+        saabRejectAboveOne = true;
+    }
+    try {
+        saab.gas(-1);
+    } catch (IllegalArgumentException e) {
+        saabRejectBelowZero = true;
+    }
+
+    reportResult("Volvo rejects gas above 1", volvoRejectAboveOne);
+    reportResult("Volvo rejects gas below 0",  volvoRejectBelowZero);
+    reportResult("Saab rejects gas above 1", saabRejectAboveOne);
+    reportResult("Saab rejects gas below 0", saabRejectBelowZero);
+} */
+
+    /**
+    private static void testInvalidBrake() {
+        Volvo240 volvo = new Volvo240();
+
+        boolean brakeRejectAboveOne = false;
+        boolean brakeRejectBelowZero = false;
+
+        try {
+            volvo.brake(2);
+        } catch (IllegalArgumentException e) {
+            brakeRejectAboveOne = true;
+        }
+        try {
+            volvo.brake(-1.5);
+        } catch (IllegalArgumentException e) {
+            brakeRejectBelowZero = true;
+        }
+
+        reportResult("Brake rejects above one", brakeRejectAboveOne);
+        reportResult("Brake rejects below zero", brakeRejectBelowZero);
+    } */
+
